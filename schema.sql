@@ -1,10 +1,11 @@
--- Zapzap: cole tudo no SQL Editor do Supabase e clique em Run.
+-- MyMsg: cole tudo no SQL Editor do Supabase e clique em Run.
 
 create table public.profiles (
   id uuid primary key references auth.users on delete cascade,
   name text not null,
   emoji text default '🙂',
   color text default '#4c8fd6',
+  avatar_url text,
   last_seen timestamptz default now()
 );
 create table public.chats (
@@ -26,6 +27,7 @@ create table public.messages (
   sender_id uuid not null default auth.uid() references public.profiles(id),
   body text not null default '' check (char_length(body) <= 4000),
   reply_to uuid references public.messages(id) on delete set null,
+  edited_at timestamptz,
   deleted boolean default false,
   created_at timestamptz default now()
 );
@@ -89,5 +91,30 @@ create policy "enviar mensagens" on public.messages for insert to authenticated
   with check (sender_id = auth.uid() and public.is_member(chat_id));
 create policy "apagar minhas mensagens" on public.messages for update to authenticated
   using (sender_id = auth.uid()) with check (sender_id = auth.uid());
+create policy "excluir conversa" on public.chats for delete to authenticated
+  using (public.is_member(id) and (not is_group or created_by = auth.uid()));
 
-alter publication supabase_realtime add table public.messages, public.chat_members;
+alter publication supabase_realtime add table public.messages, public.chat_members, public.chats, public.profiles;
+
+-- fotos de perfil (Storage). Se algo daqui falhar, um aviso será emitido
+-- e o resto do script continua; nesse caso crie bucket e policies no
+-- Dashboard > Storage, no bucket "avatars".
+do $$ begin
+  insert into storage.buckets (id, name, public) values ('avatars','avatars',true) on conflict (id) do nothing;
+exception when others then
+  raise notice 'Aviso: bucket avatars não pôde ser criado via SQL (%). Crie no Dashboard > Storage.', sqlerrm; end $$;
+do $$ begin
+  create policy "enviar avatar" on storage.objects for insert to authenticated
+    with check (bucket_id='avatars' and (storage.foldername(name))[1]=auth.uid()::text);
+exception when others then
+  raise notice 'Aviso: crie a policy "enviar avatar" no Dashboard > Storage (%).', sqlerrm; end $$;
+do $$ begin
+  create policy "atualizar avatar" on storage.objects for update to authenticated
+    using (bucket_id='avatars' and (storage.foldername(name))[1]=auth.uid()::text);
+exception when others then
+  raise notice 'Aviso: crie a policy "atualizar avatar" no Dashboard > Storage (%).', sqlerrm; end $$;
+do $$ begin
+  create policy "apagar avatar" on storage.objects for delete to authenticated
+    using (bucket_id='avatars' and (storage.foldername(name))[1]=auth.uid()::text);
+exception when others then
+  raise notice 'Aviso: crie a policy "apagar avatar" no Dashboard > Storage (%).', sqlerrm; end $$;
