@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zapzap</title>
+<style>
+:root{--bg:#f0f2f5;--pn:#fff;--hd:#f0f2f5;--tx:#111b21;--t2:#667781;--ln:#e9edef;--g:#00a884;--out:#d9fdd3;--in:#fff;--cb:#efeae2;--hv:#f5f6f6;--sel:#f0f2f5;--bd:#53bdeb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b141a;--pn:#111b21;--hd:#202c33;--tx:#e9edef;--t2:#8696a0;--ln:#222d34;--out:#005c4b;--in:#202c33;--cb:#0b141a;--hv:#202c33;--sel:#2a3942}}
+:root[data-theme=dark]{--bg:#0b141a;--pn:#111b21;--hd:#202c33;--tx:#e9edef;--t2:#8696a0;--ln:#222d34;--out:#005c4b;--in:#202c33;--cb:#0b141a;--hv:#202c33;--sel:#2a3942}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+[hidden]{display:none!important}*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:14.5px/1.35 "Segoe UI",Helvetica,Arial,sans-serif;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:6px 8px;border-radius:50%}
+button:hover{background:var(--sel)}button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--g)}
+#app{display:flex;height:100%;max-width:1600px;margin:auto;background:var(--pn)}
+#side{width:30%;min-width:320px;max-width:440px;display:flex;flex-direction:column;border-right:1px solid var(--ln)}
+#main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--cb)}
+header,.ch{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--hd);min-height:59px}
+.sp{flex:1}.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:20px;flex:none;color:#fff}
+.sr{padding:8px 12px}.sr input{width:100%;border:0;border-radius:8px;background:var(--hd);color:var(--tx);padding:8px 14px;font:inherit}
+.chips{display:flex;gap:6px;padding:0 12px 8px}.chips button{border-radius:16px;background:var(--hd);padding:4px 12px;font-size:13px;color:var(--t2)}
+.chips .on{background:#d8fdd2;color:#005c4b}
+#list{overflow:auto;flex:1}
+.it{display:flex;gap:12px;padding:0 14px;cursor:pointer;align-items:center}.it:hover,.it.on{background:var(--sel)}
+.it .in2{flex:1;min-width:0;padding:12px 0;border-bottom:1px solid var(--ln)}
+.l1,.l2{display:flex;justify-content:space-between;gap:8px;align-items:center}.l1 b{font-weight:500;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.l1 small,.l2{color:var(--t2)}.l2 span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.un{background:var(--g);color:#fff;border-radius:10px;min-width:20px;padding:0 6px;font-size:12px;text-align:center;line-height:20px;font-weight:600}
+.has small{color:var(--g)}.gr{color:var(--g)}
+.tk{color:var(--t2);font-size:12px;letter-spacing:-3px;margin-right:3px}.tk.r{color:var(--bd)}
+#empty{flex:1;display:grid;place-content:center;text-align:center;color:var(--t2);gap:8px;background:var(--hd);padding:20px}
+#empty h2{font-weight:300;color:var(--tx);margin:0;font-size:28px}
+#chat{display:none;flex-direction:column;height:100%}#chat.show{display:flex}
+.ch{cursor:pointer}.ch .t1{font-size:16px}.ch .t2{font-size:13px;color:var(--t2)}.ch .t2.ty{color:var(--g)}.bk{display:none}
+#msgs{flex:1;overflow:auto;padding:12px 8%;background-image:radial-gradient(var(--ln) 1.2px,transparent 1.2px);background-size:24px 24px}
+.nt,.dt{text-align:center;margin:10px auto;font-size:12.5px;background:var(--hd);color:var(--t2);padding:5px 12px;border-radius:8px;width:fit-content;max-width:90%}
+.row{display:flex;margin:2px 0}.row.out{justify-content:flex-end}.row.first{margin-top:8px}
+.b{position:relative;max-width:min(65%,520px);padding:6px 8px 6px 9px;border-radius:8px;white-space:pre-wrap;word-wrap:break-word;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+.out .b{background:var(--out)}.in .b{background:var(--in)}
+.first .b::before{content:"";position:absolute;top:0;width:9px;height:13px;background:inherit}
+.in.first .b{border-top-left-radius:0}.in.first .b::before{left:-8px;clip-path:polygon(100% 0,0 0,100% 100%)}
+.out.first .b{border-top-right-radius:0}.out.first .b::before{right:-8px;clip-path:polygon(0 0,100% 0,0 100%)}
+.mt{float:right;margin:7px 0 -3px 12px;font-size:11px;color:var(--t2);white-space:nowrap}
+.nm{font-size:13px;font-weight:600}.dl{color:var(--t2)}.b img{display:block;max-width:100%;max-height:300px;border-radius:6px;margin-bottom:2px}
+.qt{border-left:4px solid var(--g);background:rgba(120,120,120,.15);border-radius:6px;padding:4px 8px;margin-bottom:4px;font-size:13px;cursor:pointer;color:var(--t2);white-space:normal}
+.dd{position:absolute;top:0;right:2px;opacity:0;font-size:16px;padding:0 6px;background:inherit;border-radius:8px}.b:hover .dd{opacity:1}
+.re{position:absolute;bottom:-12px;left:8px;background:var(--pn);border-radius:12px;padding:0 5px;box-shadow:0 1px 2px #0003;font-size:14px}.b:has(.re){margin-bottom:12px}
+.au{display:flex;align-items:center;gap:8px;min-width:220px}.wv{display:flex;align-items:center;gap:2px;flex:1}.wv i{width:3px;background:var(--t2);opacity:.5;border-radius:2px}.wv i.on{background:var(--g);opacity:1}.au small{color:var(--t2)}.pl{font-size:18px}
+#rb{display:none;background:var(--hd);padding:8px 12px 0}#rb.show{display:block}
+#rb div{background:rgba(120,120,120,.15);border-left:4px solid var(--g);border-radius:8px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+#cp,#rc{display:flex;align-items:flex-end;gap:4px;padding:8px 12px;background:var(--hd)}#rc{align-items:center}
+#inp{flex:1;resize:none;border:0;border-radius:8px;background:var(--pn);color:var(--tx);padding:9px 12px;font:inherit;max-height:120px}
+.dot{width:10px;height:10px;border-radius:50%;background:#f15c6d;animation:bl 1s infinite}@keyframes bl{50%{opacity:.2}}
+#go{background:var(--g);color:#fff;width:42px;height:42px;font-size:18px}#go:hover{background:#06cf9c}
+#em{display:none;grid-template-columns:repeat(8,1fr);gap:2px;padding:8px 12px;background:var(--hd);border-top:1px solid var(--ln)}#em.show{display:grid}#em button{font-size:22px;border-radius:8px}
+#mn{position:fixed;z-index:9;background:var(--pn);border-radius:10px;box-shadow:0 2px 14px #0004;padding:6px 0;min-width:190px}#mn button{display:block;width:100%;text-align:left;border-radius:0;padding:9px 20px}
+#mn .rx{display:flex;padding:4px 8px;justify-content:space-between}#mn .rx button{width:auto;padding:4px 6px;font-size:20px;border-radius:50%}
+dialog{border:0;border-radius:12px;background:var(--pn);color:var(--tx);padding:20px;box-shadow:0 4px 30px #0005}dialog input{display:block;margin:12px 0;padding:8px;width:260px;border-radius:8px;border:1px solid var(--ln);background:var(--hd);color:var(--tx);font:inherit}
+dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
+@media(max-width:760px){#side{width:100%;max-width:none;min-width:0}#main{display:none}#app.open #side{display:none}#app.open #main{display:flex}.bk{display:block}#msgs{padding:10px 10px}.b{max-width:82%}}
+</style></head><body>
+<div id="app">
+<aside id="side">
+<header><div class="av" style="background:#6a7175">Eu</div><span class="sp"></span><button id="nc" title="Nova conversa">➕</button><button id="th" title="Alternar tema">🌓</button><button id="lo" title="Sair">🚪</button></header>
+<div class="sr"><input id="q" placeholder="Pesquisar ou começar uma nova conversa" aria-label="Pesquisar"></div>
+<div class="chips"><button data-f="all" class="on">Tudo</button><button data-f="unread">Não lidas</button><button data-f="g">Grupos</button></div>
+<div id="list"></div>
+</aside>
+<main id="main">
+<div id="empty"><div style="font-size:70px">💬</div><h2>Zapzap Web</h2><div>Selecione uma conversa para começar.<br>Conversas em tempo real com Supabase.</div></div>
+<section id="chat">
+<div class="ch" id="chh"><button class="bk" id="bk">←</button><div class="av" id="hav"></div><div><div class="t1" id="hn"></div><div class="t2" id="hs"></div></div><span class="sp"></span></div>
+<div id="msgs"></div>
+<div id="rb"><div><span id="rt2"></span><button id="rx2">✕</button></div></div>
+<div id="em"></div>
+<div id="cp"><button id="emb" title="Emojis">😊</button><textarea id="inp" rows="1" placeholder="Digite uma mensagem"></textarea><button id="go" title="Enviar">➤</button></div>
+<div id="rc" hidden><button id="rcx" title="Cancelar">🗑️</button><i class="dot"></i><b id="rt">0:00</b><span class="sp"></span><button id="go2" style="background:var(--g);color:#fff;width:42px;height:42px">➤</button></div>
+
+</section>
+</main>
+</div>
+<div id="mn" hidden></div>
+<dialog id="au"><b>Entrar no Zapzap</b><input id="ae" type="email" placeholder="E-mail" autocomplete="email"><input id="ap" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="current-password"><input id="an" placeholder="Seu nome (só para criar conta)" maxlength="30"><button id="li">Entrar</button> <button id="su" style="background:var(--hd);color:var(--tx)">Criar conta</button><p id="am" style="max-width:260px;color:var(--t2);font-size:13px"></p></dialog>
+<dialog id="dlg"></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const SUPABASE_URL='https://jjjrzbewciaxjdqrcnie.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqanJ6YmV3Y2lheGpkcXJjbmllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk5OTI2MjgsImV4cCI6MjEwNTU2ODYyOH0.4kOJGcWkMmWmGb8wutY2Z1DXXph9JG5b9ByrDYaoVz8';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=s=>document.querySelector(s),E=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>');
+const T=t=>new Date(t).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),dk=t=>new Date(t).toDateString();
+const dl=t=>{const d=new Date(t),n=new Date();return d.toDateString()==n.toDateString()?'Hoje':new Date(n-864e5).toDateString()==d.toDateString()?'Ontem':d.toLocaleDateString('pt-BR')};
+const COL=['#e17076','#e8883e','#4caf50','#17a2b8','#4c8fd6','#8e7bd8','#d6568f'],col=n=>COL[[...n].reduce((a,c)=>a+c.charCodeAt(0),0)%7];
+let me,S=[],cur=null,filt='all',qv='',rep=null,online=new Set(),typ={},ptyp=0,ty;
+const chat=()=>S.find(c=>c.id==cur),last=c=>c.msgs[c.msgs.length-1];
+const oth=c=>{const x=c.mem.find(x=>x.user_id!=me.id);return x&&x.profiles};
+const title=c=>c.is_group?c.name:(oth(c)||{}).name||'Conversa';
+const avp=c=>c.is_group?{emoji:'👥',color:'#17a2b8'}:oth(c)||{emoji:'🙂',color:'#888'};
+const av=p=>`<div class="av" style="background:${p.color}">${p.emoji}</div>`;
+const who=(c,id)=>(c.mem.find(x=>x.user_id==id)||{profiles:{name:'?'}}).profiles.name;
+const myRead=c=>c.mem.find(x=>x.user_id==me.id).last_read_at;
+const unread=c=>c.msgs.filter(g=>g.sender_id!=me.id&&g.created_at>myRead(c)).length;
+const isTyp=c=>Object.keys(typ).some(k=>k.startsWith(c.id));
+const stt=(c,g)=>{const o=c.mem.filter(x=>x.user_id!=me.id);return o.length&&o.every(x=>x.last_read_at>=g.created_at)?3:o.some(x=>online.has(x.user_id))?2:1};
+const tick=s=>`<span class="tk${s>2?' r':''}">${s>1?'✓✓':'✓'}</span>`;
+const snip=q=>q.deleted?'Mensagem apagada':q.body;
+async function load(){
+ const {data:mc}=await sb.from('chat_members').select('chat_id');const ids=(mc||[]).map(x=>x.chat_id);
+ if(!ids.length){S=[];return}
+ const [a,b,d]=await Promise.all([sb.from('chats').select('*').in('id',ids),
+  sb.from('chat_members').select('chat_id,user_id,last_read_at,profiles(id,name,emoji,color,last_seen)').in('chat_id',ids),
+  sb.from('messages').select('*').in('chat_id',ids).order('created_at').limit(2000)]);
+ S=(a.data||[]).map(c=>({...c,mem:b.data.filter(x=>x.chat_id==c.id),msgs:d.data.filter(g=>g.chat_id==c.id)}))}
+function list(){
+ const L=S.filter(c=>(!qv||title(c).toLowerCase().includes(qv)||c.msgs.some(g=>!g.deleted&&g.body.toLowerCase().includes(qv)))&&(filt=='all'||filt=='unread'&&unread(c)||filt=='g'&&c.is_group));
+ L.sort((a,b)=>(last(b)?last(b).created_at:b.created_at).localeCompare(last(a)?last(a).created_at:a.created_at));
+ $('#list').innerHTML=L.map(c=>{const l=last(c),u=unread(c);let p='';
+  if(isTyp(c))p='<span class="gr">digitando...</span>';
+  else if(l)p=(l.sender_id==me.id?tick(stt(c,l))+' ':c.is_group?E(who(c,l.sender_id))+': ':'')+(l.deleted?'🚫 Mensagem apagada':E(l.body));
+  return`<div class="it${c.id==cur?' on':''}${u?' has':''}" data-id="${c.id}">${av(avp(c))}<div class="in2"><div class="l1"><b>${E(title(c))}</b><small>${l?(dk(l.created_at)==dk(Date.now())?T(l.created_at):dl(l.created_at)):''}</small></div><div class="l2"><span>${p}</span><span>${u?`<span class="un">${u}</span>`:''}</span></div></div></div>`}).join('')||'<div class="nt">Nenhuma conversa. Toque em ➕ para começar.</div>';
+ const n=S.reduce((a,c)=>a+unread(c),0);document.title=(n?`(${n}) `:'')+'Zapzap'}
+function hdr(){const c=chat();if(!c)return;$('#hav').outerHTML=av(avp(c)).replace('class="av"','class="av" id="hav"');$('#hn').textContent=title(c);
+ const s=$('#hs'),t=isTyp(c),o=oth(c);s.className='t2'+(t?' ty':'');
+ s.textContent=t?'digitando...':c.is_group?c.mem.map(x=>x.profiles.name).join(', '):online.has(o&&o.id)?'online':'visto por último '+(o&&o.last_seen?dl(o.last_seen).toLowerCase()+' às '+T(o.last_seen):'')}
+function msgs(){const c=chat(),box=$('#msgs');let h='<div class="nt">💬 Mensagens em tempo real via Supabase.</div>',pd='',pf='';
+ c.msgs.forEach(g=>{const d=dk(g.created_at),mine=g.sender_id==me.id;if(d!=pd){h+=`<div class="dt">${dl(g.created_at)}</div>`;pd=d;pf=''}const first=pf!=g.sender_id;pf=g.sender_id;let b='';
+  if(c.is_group&&!mine&&first)b+=`<div class="nm" style="color:${col(who(c,g.sender_id))}">${E(who(c,g.sender_id))}</div>`;
+  if(g.reply_to){const q=c.msgs.find(z=>z.id==g.reply_to);if(q)b+=`<div class="qt" data-q="${q.id}"><b style="color:${q.sender_id==me.id?'var(--g)':col(who(c,q.sender_id))}">${q.sender_id==me.id?'Você':E(who(c,q.sender_id))}</b><br>${E(snip(q))}</div>`}
+  b+=g.deleted?'<i class="dl">🚫 Esta mensagem foi apagada</i>':E(g.body);
+  b+=`<span class="mt">${T(g.created_at)}${mine?tick(stt(c,g)):''}</span>`;
+  h+=`<div class="row ${mine?'out':'in'}${first?' first':''}" id="m${g.id}"><div class="b"><button class="dd" data-d="${g.id}" aria-label="Opções">⌄</button>${b}</div></div>`});
+ box.innerHTML=h;box.scrollTop=box.scrollHeight}
+async function read(c){if(!unread(c))return;const {data}=await sb.rpc('mark_read',{p_chat:c.id});if(data){c.mem.find(x=>x.user_id==me.id).last_read_at=data;list()}}
+function open_(id){cur=id;const c=chat();rep=null;$('#rb').classList.remove('show');$('#empty').style.display='none';$('#chat').classList.add('show');$('#app').classList.add('open');hdr();msgs();list();read(c);$('#inp').focus()}
+async function send(){const c=chat(),x=$('#inp').value.trim();if(!x)return;const row={chat_id:c.id,body:x};if(rep)row.reply_to=rep;rep=null;$('#rb').classList.remove('show');$('#inp').value='';fit();
+ const {data,error}=await sb.from('messages').insert(row).select().single();if(error)return alert(error.message);
+ if(!c.msgs.some(z=>z.id==data.id)){c.msgs.push(data);msgs();list()}}
+function fit(){const i=$('#inp');i.style.height='auto';i.style.height=Math.min(i.scrollHeight,120)+'px'}
+function menu(items,x,y){const mn=$('#mn');mn.innerHTML=items.map((it,i)=>`<button data-i="${i}">${it[0]}</button>`).join('');mn.hidden=false;mn.style.left=Math.max(4,Math.min(x,innerWidth-210))+'px';mn.style.top=Math.max(4,Math.min(y,innerHeight-160))+'px';mn._it=items}
+const hide=()=>{$('#mn').hidden=true};
+$('#mn').onclick=e=>{const b=e.target.closest('button');if(!b)return;const it=$('#mn')._it;hide();it[b.dataset.i][1]()};
+$('#msgs').onclick=e=>{const c=chat(),d=e.target.closest('.dd'),q=e.target.closest('.qt');
+ if(d){const g=c.msgs.find(z=>z.id==d.dataset.d),r=d.getBoundingClientRect();e.stopPropagation();const it=[];
+  if(!g.deleted)it.push(['↩️ Responder',()=>{rep=g.id;$('#rt2').innerHTML='<b>'+(g.sender_id==me.id?'Você':E(who(c,g.sender_id)))+'</b><br>'+E(snip(g));$('#rb').classList.add('show');$('#inp').focus()}],['📋 Copiar',()=>{try{navigator.clipboard.writeText(g.body)}catch(e){}}]);
+  if(g.sender_id==me.id&&!g.deleted)it.push(['🗑️ Apagar para todos',async()=>{const {error}=await sb.from('messages').update({deleted:true,body:''}).eq('id',g.id);if(error)alert(error.message)}]);
+  if(it.length)menu(it,r.left-120,r.bottom)}
+ else if(q){const t=$('#m'+q.dataset.q);if(t){t.scrollIntoView({block:'center',behavior:'smooth'});t.firstChild.animate([{filter:'brightness(.7)'},{filter:'none'}],900)}}};
+document.addEventListener('click',e=>{if(!e.target.closest('#mn'))hide();if(!e.target.closest('#em,#emb'))$('#em').classList.remove('show')});
+$('#list').onclick=e=>{const i=e.target.closest('.it');if(i)open_(i.dataset.id)};
+$('#q').oninput=e=>{qv=e.target.value.toLowerCase().trim();list()};
+document.querySelector('.chips').onclick=e=>{const b=e.target.closest('button');if(!b)return;filt=b.dataset.f;document.querySelectorAll('.chips button').forEach(x=>x.classList.toggle('on',x==b));list()};
+$('#bk').onclick=e=>{e.stopPropagation();$('#app').classList.remove('open');cur=null;$('#chat').classList.remove('show');$('#empty').style.display='';list()};
+$('#inp').oninput=()=>{fit();if(cur&&Date.now()-ptyp>2000){ptyp=Date.now();ty.send({type:'broadcast',event:'t',payload:{c:cur,u:me.id}})}};
+$('#inp').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey&&innerWidth>760){e.preventDefault();send()}};
+$('#go').onclick=send;$('#rx2').onclick=()=>{rep=null;$('#rb').classList.remove('show')};
+$('#em').innerHTML='😀😂🥰😍😎🤔😢😡👍👎🙏👏🔥❤️💔🎉🍕☕🎂🌟✅😴🤝🙌'.match(/\p{Extended_Pictographic}\uFE0F?/gu).map(e=>`<button>${e}</button>`).join('');
+$('#emb').onclick=e=>{e.stopPropagation();$('#em').classList.toggle('show')};
+$('#em').onclick=e=>{const b=e.target.closest('button');if(b){$('#inp').value+=b.textContent;fit();$('#inp').focus()}};
+$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+$('#lo').onclick=async()=>{await sb.auth.signOut();location.reload()};
+$('#nc').onclick=async()=>{const {data}=await sb.from('profiles').select('id,name,emoji').neq('id',me.id).order('name');
+ $('#dlg').innerHTML=`<b>Nova conversa</b><div style="max-height:260px;overflow:auto;margin:10px 0">${(data||[]).map(p=>`<label style="display:block;padding:4px 0"><input type="checkbox" value="${p.id}" style="display:inline;width:auto;margin:0 8px 0 0">${p.emoji} ${E(p.name)}</label>`).join('')||'Nenhum outro usuário cadastrado ainda.'}</div><input id="gn" placeholder="Nome do grupo (se escolher 2+ pessoas)"><button id="ok">Criar</button> <button id="cx" style="background:var(--hd);color:var(--tx)">Cancelar</button>`;$('#dlg').showModal()};
+$('#dlg').onclick=async e=>{if(e.target.id=='cx')return $('#dlg').close();if(e.target.id!='ok')return;
+ const ids=[...$('#dlg').querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);if(!ids.length)return;
+ const {data,error}=await sb.rpc('create_chat',{p_name:$('#gn').value.trim()||'Grupo',p_members:ids});$('#dlg').close();if(error)return alert(error.message);await load();open_(data)};
+function realtime(){
+ sb.channel('db').on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},async p=>{const g=p.new;let c=S.find(x=>x.id==g.chat_id);
+   if(!c){await load();c=S.find(x=>x.id==g.chat_id)}else if(!c.msgs.some(x=>x.id==g.id))c.msgs.push(g);if(!c)return;
+   delete typ[c.id+g.sender_id];if(cur==c.id){msgs();hdr();if(g.sender_id!=me.id)read(c)}list()})
+ .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages'},p=>{const c=S.find(x=>x.id==p.new.chat_id),g=c&&c.msgs.find(x=>x.id==p.new.id);if(g){Object.assign(g,p.new);if(cur==c.id)msgs();list()}})
+ .on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_members'},async()=>{await load();list();if(cur)hdr()})
+ .on('postgres_changes',{event:'UPDATE',schema:'public',table:'chat_members'},p=>{const c=S.find(x=>x.id==p.new.chat_id),m=c&&c.mem.find(x=>x.user_id==p.new.user_id);if(m){m.last_read_at=p.new.last_read_at;if(cur==c.id)msgs();list()}}).subscribe();
+ const pr=sb.channel('presence',{config:{presence:{key:me.id}}});
+ pr.on('presence',{event:'sync'},()=>{online=new Set(Object.keys(pr.presenceState()));if(cur){hdr();msgs()}list()}).subscribe(s=>{if(s=='SUBSCRIBED')pr.track({t:Date.now()})});
+ ty=sb.channel('typing');ty.on('broadcast',{event:'t'},({payload:p})=>{if(!S.some(c=>c.id==p.c))return;const k=p.c+p.u;clearTimeout(typ[k]);typ[k]=setTimeout(()=>{delete typ[k];hdr();list()},3000);hdr();list()}).subscribe();
+ setInterval(()=>sb.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id),6e4)}
+async function boot(){const {data:{session}}=await sb.auth.getSession();if(!session)return $('#au').showModal();
+ const {data:p}=await sb.from('profiles').select('*').eq('id',session.user.id).single();me=p;
+ $('#side header .av').outerHTML=`<div class="av" style="background:${p.color}" title="${E(p.name)}">${p.emoji}</div>`;
+ await load();list();realtime()}
+$('#au').addEventListener('cancel',e=>e.preventDefault());
+const authGo=async up=>{const email=$('#ae').value.trim(),password=$('#ap').value,m=$('#am');m.textContent='';
+ const {data,error}=up?await sb.auth.signUp({email,password,options:{data:{name:$('#an').value.trim()||email.split('@')[0]}}}):await sb.auth.signInWithPassword({email,password});
+ if(error)return m.textContent=error.message;if(!data.session)return m.textContent='Conta criada! Confirme o e-mail (ou desative a confirmação no painel do Supabase) e entre.';
+ $('#au').close();boot()};
+$('#li').onclick=()=>authGo(0);$('#su').onclick=()=>authGo(1);
+if(SUPABASE_URL.startsWith('COLE'))$('#empty').innerHTML='<h2>Configure o Supabase</h2><div>Edite SUPABASE_URL e SUPABASE_KEY no início do script deste arquivo.</div>';else boot();
+</script></body></html>
