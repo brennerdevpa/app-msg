@@ -15,7 +15,7 @@ button:hover{background:var(--sel)}button:focus-visible,textarea:focus-visible,i
 #side{width:30%;min-width:320px;max-width:440px;display:flex;flex-direction:column;border-right:1px solid var(--ln)}
 #main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--cb)}
 header,.ch{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--hd);min-height:59px}
-.sp{flex:1}.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:20px;flex:none;color:#fff}img.av{object-fit:cover}#meav{cursor:pointer}
+.sp{flex:1}.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:20px;flex:none;color:#fff}
 .sr{padding:8px 12px}.sr input{width:100%;border:0;border-radius:8px;background:var(--hd);color:var(--tx);padding:8px 14px;font:inherit}
 .chips{display:flex;gap:6px;padding:0 12px 8px}.chips button{border-radius:16px;background:var(--hd);padding:4px 12px;font-size:13px;color:var(--t2)}
 .chips .on{background:#d8fdd2;color:#005c4b}
@@ -57,10 +57,10 @@ header,.ch{display:flex;align-items:center;gap:6px;padding:10px 14px;background:
 dialog{border:0;border-radius:12px;background:var(--pn);color:var(--tx);padding:20px;box-shadow:0 4px 30px #0005}dialog input{display:block;margin:12px 0;padding:8px;width:260px;border-radius:8px;border:1px solid var(--ln);background:var(--hd);color:var(--tx);font:inherit}
 dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
 @media(max-width:760px){#side{width:100%;max-width:none;min-width:0}#main{display:none}#app.open #side{display:none}#app.open #main{display:flex}.bk{display:block}#msgs{padding:10px 10px}.b{max-width:82%}}
-</style></head><body>
+.av{background-size:cover}#meav{cursor:pointer}@media(hover:none){.dd{opacity:.7}}</style></head><body>
 <div id="app">
 <aside id="side">
-<header><div id="meav" class="av" style="background:#6a7175" title="Editar foto de perfil">Eu</div><span class="sp"></span><button id="nc" title="Nova conversa">➕</button><button id="th" title="Alternar tema">🌓</button><button id="lo" title="Sair">🚪</button></header>
+<header><div class="av" style="background:#6a7175">Eu</div><span class="sp"></span><button id="nc" title="Nova conversa">➕</button><button id="nf" title="Notificações">🔔</button><button id="th" title="Alternar tema">🌓</button><button id="lo" title="Sair">🚪</button></header>
 <div class="sr"><input id="q" placeholder="Pesquisar ou começar uma nova conversa" aria-label="Pesquisar"></div>
 <div class="chips"><button data-f="all" class="on">Tudo</button><button data-f="unread">Não lidas</button><button data-f="g">Grupos</button></div>
 <div id="list"></div>
@@ -68,7 +68,7 @@ dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
 <main id="main">
 <div id="empty"><div style="font-size:70px">💬</div><h2>MyMsg Web</h2><div>Selecione uma conversa para começar.<br>Conversas em tempo real com Supabase.</div></div>
 <section id="chat">
-<div class="ch" id="chh"><button class="bk" id="bk">←</button><div class="av" id="hav"></div><div><div class="t1" id="hn"></div><div class="t2" id="hs"></div></div><span class="sp"></span><button id="hm" title="Opções da conversa">⋯</button></div>
+<div class="ch" id="chh"><button class="bk" id="bk">←</button><div class="av" id="hav"></div><div><div class="t1" id="hn"></div><div class="t2" id="hs"></div></div><span class="sp"></span></div>
 <div id="msgs"></div>
 <div id="rb"><div><span id="rt2"></span><button id="rx2">✕</button></div></div>
 <div id="em"></div>
@@ -78,24 +78,24 @@ dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
 </section>
 </main>
 </div>
+<input type="file" id="pf" accept="image/*" hidden>
 <div id="mn" hidden></div>
 <dialog id="au"><b>Entrar no MyMsg</b><input id="ae" type="email" placeholder="E-mail" autocomplete="email"><input id="ap" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="current-password"><input id="an" placeholder="Seu nome (só para criar conta)" maxlength="30"><button id="li">Entrar</button> <button id="su" style="background:var(--hd);color:var(--tx)">Criar conta</button><p id="am" style="max-width:260px;color:var(--t2);font-size:13px"></p></dialog>
 <dialog id="dlg"></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 const SUPABASE_URL='https://jjjrzbewciaxjdqrcnie.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqanJ6YmV3Y2lheGpkcXJjbmllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk5OTI2MjgsImV4cCI6MjEwNTU2ODYyOH0.4kOJGcWkMmWmGb8wutY2Z1DXXph9JG5b9ByrDYaoVz8';
-const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,storage:window.localStorage}});
 const $=s=>document.querySelector(s),E=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>');
 const T=t=>new Date(t).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),dk=t=>new Date(t).toDateString();
 const dl=t=>{const d=new Date(t),n=new Date();return d.toDateString()==n.toDateString()?'Hoje':new Date(n-864e5).toDateString()==d.toDateString()?'Ontem':d.toLocaleDateString('pt-BR')};
 const COL=['#e17076','#e8883e','#4caf50','#17a2b8','#4c8fd6','#8e7bd8','#d6568f'],col=n=>COL[[...n].reduce((a,c)=>a+c.charCodeAt(0),0)%7];
-let me,S=[],cur=null,filt='all',qv='',rep=null,ed=null,online=new Set(),typ={},ptyp=0,ty;
+let edit=null,me,S=[],cur=null,filt='all',qv='',rep=null,online=new Set(),typ={},ptyp=0,ty;
 const chat=()=>S.find(c=>c.id==cur),last=c=>c.msgs[c.msgs.length-1];
 const oth=c=>{const x=c.mem.find(x=>x.user_id!=me.id);return x&&x.profiles};
 const title=c=>c.is_group?c.name:(oth(c)||{}).name||'Conversa';
 const avp=c=>c.is_group?{emoji:'👥',color:'#17a2b8'}:oth(c)||{emoji:'🙂',color:'#888'};
- const av=p=>p.avatar_url?`<img class="av" src="${String(p.avatar_url).replace(/"/g,'&quot;')}" alt="">`:`<div class="av" style="background:${p.color}">${p.emoji}</div>`;
- const setMeAv=()=>{const el=$('#meav');if(el&&me)el.outerHTML=av(me).replace('class="av"',`class="av" id="meav" title="${E(me.name)}"`)};
+const av=p=>p.avatar_url?`<div class="av" style="background:#888 center/cover url('${p.avatar_url}')"></div>`:`<div class="av" style="background:${p.color}">${p.emoji}</div>`;
 const who=(c,id)=>(c.mem.find(x=>x.user_id==id)||{profiles:{name:'?'}}).profiles.name;
 const myRead=c=>c.mem.find(x=>x.user_id==me.id).last_read_at;
 const unread=c=>c.msgs.filter(g=>g.sender_id!=me.id&&g.created_at>myRead(c)).length;
@@ -106,8 +106,8 @@ const snip=q=>q.deleted?'Mensagem apagada':q.body;
 async function load(){
  const {data:mc}=await sb.from('chat_members').select('chat_id');const ids=(mc||[]).map(x=>x.chat_id);
  if(!ids.length){S=[];return}
-  const [a,b,d]=await Promise.all([sb.from('chats').select('*').in('id',ids),
-   sb.from('chat_members').select('chat_id,user_id,last_read_at,profiles(id,name,emoji,color,last_seen,avatar_url)').in('chat_id',ids),
+ const [a,b,d]=await Promise.all([sb.from('chats').select('*').in('id',ids),
+  sb.from('chat_members').select('chat_id,user_id,last_read_at,profiles(id,name,emoji,color,last_seen,avatar_url)').in('chat_id',ids),
   sb.from('messages').select('*').in('chat_id',ids).order('created_at').limit(2000)]);
  S=(a.data||[]).map(c=>({...c,mem:b.data.filter(x=>x.chat_id==c.id),msgs:d.data.filter(g=>g.chat_id==c.id)}))}
 function list(){
@@ -126,31 +126,26 @@ function msgs(){const c=chat(),box=$('#msgs');let h='<div class="nt">💬 Mensag
   if(c.is_group&&!mine&&first)b+=`<div class="nm" style="color:${col(who(c,g.sender_id))}">${E(who(c,g.sender_id))}</div>`;
   if(g.reply_to){const q=c.msgs.find(z=>z.id==g.reply_to);if(q)b+=`<div class="qt" data-q="${q.id}"><b style="color:${q.sender_id==me.id?'var(--g)':col(who(c,q.sender_id))}">${q.sender_id==me.id?'Você':E(who(c,q.sender_id))}</b><br>${E(snip(q))}</div>`}
   b+=g.deleted?'<i class="dl">🚫 Esta mensagem foi apagada</i>':E(g.body);
-  b+=`<span class="mt">${T(g.created_at)}${g.edited_at?' editado':''}${mine?tick(stt(c,g)):''}</span>`;
+  b+=`<span class="mt">${g.edited&&!g.deleted?'editada · ':''}${T(g.created_at)}${mine?tick(stt(c,g)):''}</span>`;
   h+=`<div class="row ${mine?'out':'in'}${first?' first':''}" id="m${g.id}"><div class="b"><button class="dd" data-d="${g.id}" aria-label="Opções">⌄</button>${b}</div></div>`});
  box.innerHTML=h;box.scrollTop=box.scrollHeight}
 async function read(c){if(!unread(c))return;const {data}=await sb.rpc('mark_read',{p_chat:c.id});if(data){c.mem.find(x=>x.user_id==me.id).last_read_at=data;list()}}
-function open_(id){cur=id;const c=chat();rep=null;ed=null;$('#rb').classList.remove('show');$('#empty').style.display='none';$('#chat').classList.add('show');$('#app').classList.add('open');hdr();msgs();list();read(c);$('#inp').focus()}
+function open_(id){cur=id;const c=chat();rep=null;if(edit){edit=null;$('#inp').value=''}$('#rb').classList.remove('show');$('#empty').style.display='none';$('#chat').classList.add('show');$('#app').classList.add('open');hdr();msgs();list();read(c);$('#inp').focus()}
 async function send(){const c=chat(),x=$('#inp').value.trim();if(!x)return;
- if(ed){const id=ed;ed=null;rep=null;$('#rb').classList.remove('show');$('#inp').value='';fit();
-  const now=new Date().toISOString();
-  const {error}=await sb.from('messages').update({body:x,edited_at:now}).eq('id',id);if(error)return alert(error.message);
-  const g=c.msgs.find(z=>z.id==id);if(g){g.body=x;g.edited_at=now}msgs();list();return}
- const row={chat_id:c.id,body:x};if(rep)row.reply_to=rep;rep=null;$('#rb').classList.remove('show');$('#inp').value='';fit();
-  const {data,error}=await sb.from('messages').insert(row).select().single();
-  if(error){await load();if(!S.find(x=>x.id==c.id)){S=S.filter(z=>z.id!=c.id);if(cur==c.id)closeChat();return}return alert(error.message)}
+ if(edit){const id=edit;edit=null;$('#rb').classList.remove('show');$('#inp').value='';fit();const {error}=await sb.from('messages').update({body:x,edited:true}).eq('id',id);
+  if(error)alert(error.message);else{const g=c.msgs.find(z=>z.id==id);if(g){g.body=x;g.edited=true;msgs();list()}}return}
+const row={chat_id:c.id,body:x};if(rep)row.reply_to=rep;rep=null;$('#rb').classList.remove('show');$('#inp').value='';fit();
+ const {data,error}=await sb.from('messages').insert(row).select().single();if(error)return alert(error.message);
  if(!c.msgs.some(z=>z.id==data.id)){c.msgs.push(data);msgs();list()}}
 function fit(){const i=$('#inp');i.style.height='auto';i.style.height=Math.min(i.scrollHeight,120)+'px'}
 function menu(items,x,y){const mn=$('#mn');mn.innerHTML=items.map((it,i)=>`<button data-i="${i}">${it[0]}</button>`).join('');mn.hidden=false;mn.style.left=Math.max(4,Math.min(x,innerWidth-210))+'px';mn.style.top=Math.max(4,Math.min(y,innerHeight-160))+'px';mn._it=items}
 const hide=()=>{$('#mn').hidden=true};
-const startEdit=g=>{ed=g.id;rep=null;$('#inp').value=g.body;fit();
- $('#rt2').innerHTML='<b>✏️ Editando mensagem</b><br>'+E(g.body.slice(0,100));
- $('#rb').classList.add('show');const i=$('#inp');i.focus();i.selectionStart=i.value.length};
 $('#mn').onclick=e=>{const b=e.target.closest('button');if(!b)return;const it=$('#mn')._it;hide();it[b.dataset.i][1]()};
 $('#msgs').onclick=e=>{const c=chat(),d=e.target.closest('.dd'),q=e.target.closest('.qt');
  if(d){const g=c.msgs.find(z=>z.id==d.dataset.d),r=d.getBoundingClientRect();e.stopPropagation();const it=[];
-   if(!g.deleted)it.push(['↩️ Responder',()=>{rep=g.id;ed=null;$('#rt2').innerHTML='<b>'+(g.sender_id==me.id?'Você':E(who(c,g.sender_id)))+'</b><br>'+E(snip(g));$('#rb').classList.add('show');$('#inp').focus()}],['📋 Copiar',()=>{try{navigator.clipboard.writeText(g.body)}catch(e){}}]);
-   if(g.sender_id==me.id&&!g.deleted)it.push(['✏️ Editar',()=>startEdit(g)],['🗑️ Apagar para todos',async()=>{const {error}=await sb.from('messages').update({deleted:true,body:''}).eq('id',g.id);if(error)alert(error.message)}]);
+  if(!g.deleted)it.push(['↩️ Responder',()=>{rep=g.id;$('#rt2').innerHTML='<b>'+(g.sender_id==me.id?'Você':E(who(c,g.sender_id)))+'</b><br>'+E(snip(g));$('#rb').classList.add('show');$('#inp').focus()}],['📋 Copiar',()=>{try{navigator.clipboard.writeText(g.body)}catch(e){}}]);
+  if(g.sender_id==me.id&&!g.deleted)it.push(['✏️ Editar',()=>{edit=g.id;rep=null;$('#rt2').innerHTML='<b>Editando mensagem</b><br>'+E(g.body);$('#rb').classList.add('show');$('#inp').value=g.body;fit();$('#inp').focus()}]);
+  if(g.sender_id==me.id&&!g.deleted)it.push(['🗑️ Apagar para todos',async()=>{if(!confirm('Apagar esta mensagem para todos?'))return;const {error}=await sb.from('messages').update({deleted:true,body:''}).eq('id',g.id);if(error)alert(error.message)}]);
   if(it.length)menu(it,r.left-120,r.bottom)}
  else if(q){const t=$('#m'+q.dataset.q);if(t){t.scrollIntoView({block:'center',behavior:'smooth'});t.firstChild.animate([{filter:'brightness(.7)'},{filter:'none'}],900)}}};
 document.addEventListener('click',e=>{if(!e.target.closest('#mn'))hide();if(!e.target.closest('#em,#emb'))$('#em').classList.remove('show')});
@@ -159,72 +154,66 @@ $('#q').oninput=e=>{qv=e.target.value.toLowerCase().trim();list()};
 document.querySelector('.chips').onclick=e=>{const b=e.target.closest('button');if(!b)return;filt=b.dataset.f;document.querySelectorAll('.chips button').forEach(x=>x.classList.toggle('on',x==b));list()};
 $('#bk').onclick=e=>{e.stopPropagation();$('#app').classList.remove('open');cur=null;$('#chat').classList.remove('show');$('#empty').style.display='';list()};
 $('#inp').oninput=()=>{fit();if(cur&&Date.now()-ptyp>2000){ptyp=Date.now();ty.send({type:'broadcast',event:'t',payload:{c:cur,u:me.id}})}};
-$('#inp').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey&&innerWidth>760){e.preventDefault();send()}};
-$('#go').onclick=send;$('#rx2').onclick=()=>{rep=null;ed=null;$('#rb').classList.remove('show')};
+$('#inp').onkeydown=e=>{if(e.key=='Escape')$('#rx2').click();if(e.key=='Enter'&&!e.shiftKey&&innerWidth>760){e.preventDefault();send()}};
+$('#go').onclick=send;$('#rx2').onclick=()=>{rep=null;if(edit){edit=null;$('#inp').value='';fit()}$('#rb').classList.remove('show')};
 $('#em').innerHTML='😀😂🥰😍😎🤔😢😡👍👎🙏👏🔥❤️💔🎉🍕☕🎂🌟✅😴🤝🙌'.match(/\p{Extended_Pictographic}\uFE0F?/gu).map(e=>`<button>${e}</button>`).join('');
 $('#emb').onclick=e=>{e.stopPropagation();$('#em').classList.toggle('show')};
 $('#em').onclick=e=>{const b=e.target.closest('button');if(b){$('#inp').value+=b.textContent;fit();$('#inp').focus()}};
 $('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
 $('#lo').onclick=async()=>{await sb.auth.signOut();location.reload()};
- $('#nc').onclick=async()=>{const {data}=await sb.from('profiles').select('id,name,emoji').neq('id',me.id).order('name');
-  dlgOk=async()=>{const ids=[...$('#dlg').querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);if(!ids.length)return;
-   const {data,error}=await sb.rpc('create_chat',{p_name:$('#gn').value.trim()||'Grupo',p_members:ids});$('#dlg').close();if(error)return alert(error.message);await load();open_(data)};
-  $('#dlg').innerHTML=`<b>Nova conversa</b><div style="max-height:260px;overflow:auto;margin:10px 0">${(data||[]).map(p=>`<label style="display:block;padding:4px 0"><input type="checkbox" value="${p.id}" style="display:inline;width:auto;margin:0 8px 0 0">${p.emoji} ${E(p.name)}</label>`).join('')||'Nenhum outro usuário cadastrado ainda.'}</div><input id="gn" placeholder="Nome do grupo (se escolher 2+ pessoas)"><button id="ok">Criar</button> <button id="cx" style="background:var(--hd);color:var(--tx)">Cancelar</button>`;$('#dlg').showModal()};
- $('#side header').addEventListener('click',e=>{if(e.target.closest('#meav')&&me)openProfile()});
- const confirmDel=c=>{dlgOk=async()=>{$('#dlg').close();
-   const {error}=await sb.from('chats').delete().eq('id',c.id);if(error)return alert(error.message);
-   S=S.filter(x=>x.id!=c.id);if(cur==c.id)closeChat();else list()};
-  $('#dlg').innerHTML='<b>Excluir conversa?</b><p style="max-width:280px;color:var(--t2);font-size:13px">Todas as mensagens serão apagadas para todos os participantes. Essa ação não pode ser desfeita.</p><button id="ok">Excluir</button> <button id="cx" style="background:var(--hd);color:var(--tx)">Cancelar</button>';
-  $('#dlg').showModal()};
- $('#hm').onclick=e=>{e.stopPropagation();const c=chat();if(!c)return;const it=[];
-  if(!c.is_group||c.created_by==me.id)it.push(['🗑️ Excluir conversa',()=>confirmDel(c)]);
-  if(it.length){const r=e.currentTarget.getBoundingClientRect();menu(it,r.right-190,r.bottom)}};
- const renderProfile=msg=>{dlgOk=null;
-  $('#dlg').innerHTML=`<b>Foto de perfil</b><div style="text-align:center;margin:14px 0">${me.avatar_url?`<img class="av" style="width:96px;height:96px" src="${String(me.avatar_url).replace(/"/g,'&quot;')}" alt="">`:`<div class="av" style="width:96px;height:96px;font-size:44px;background:${me.color}">${me.emoji}</div>`}</div><input type="file" id="pf" accept="image/*"><div id="pm" style="color:var(--t2);font-size:13px;min-height:18px">${msg||''}</div>${me.avatar_url?'<button id="rm" style="background:var(--hd);color:var(--tx)">Remover foto</button> ':''}<button id="cx" style="background:var(--hd);color:var(--tx)">Fechar</button>`;
-  $('#pf').onchange=uploadAv;const rm=$('#rm');if(rm)rm.onclick=removeAv};
- const openProfile=()=>{renderProfile();$('#dlg').showModal()};
- const applyAvatar=async(url,msg)=>{const {error}=await sb.from('profiles').update({avatar_url:url}).eq('id',me.id);if(error)return alert(error.message);
-  me.avatar_url=url;S.forEach(c=>c.mem.forEach(x=>{if(x.user_id==me.id)x.profiles.avatar_url=url}));setMeAv();if(cur)hdr();list();renderProfile(msg)};
- const uploadAv=async()=>{const f=$('#pf').files[0];if(!f)return;const m=$('#pm');
-  if(!f.type.startsWith('image/'))return m.textContent='Escolha um arquivo de imagem.';
-  if(f.size>2*1024*1024)return m.textContent='A imagem deve ter no máximo 2 MB.';
-  m.textContent='Enviando…';
-  const {error}=await sb.storage.from('avatars').upload(`${me.id}/avatar`,f,{upsert:true,contentType:f.type});
-  if(error)return m.textContent=error.message;
-  const {data}=sb.storage.from('avatars').getPublicUrl(`${me.id}/avatar`);
-  await applyAvatar(data.publicUrl+'?v='+Date.now(),'Foto atualizada!')};
- const removeAv=()=>applyAvatar(null,'Foto removida.');
- $('#dlg').onclick=e=>{if(e.target.id=='cx')return $('#dlg').close();if(e.target.id=='ok'&&dlgOk)return dlgOk()};
- let dlgOk=null;
- const closeChat=()=>{cur=null;rep=null;$('#rb').classList.remove('show');$('#chat').classList.remove('show');$('#app').classList.remove('open');$('#empty').style.display='';list()};
+$('#nc').onclick=async()=>{const {data}=await sb.from('profiles').select('id,name,emoji').neq('id',me.id).order('name');
+ $('#dlg').innerHTML=`<b>Nova conversa</b><div style="max-height:260px;overflow:auto;margin:10px 0">${(data||[]).map(p=>`<label style="display:block;padding:4px 0"><input type="checkbox" value="${p.id}" style="display:inline;width:auto;margin:0 8px 0 0">${p.emoji} ${E(p.name)}</label>`).join('')||'Nenhum outro usuário cadastrado ainda.'}</div><input id="gn" placeholder="Nome do grupo (se escolher 2+ pessoas)"><button id="ok">Criar</button> <button id="cx" style="background:var(--hd);color:var(--tx)">Cancelar</button>`;$('#dlg').showModal()};
+$('#dlg').onclick=async e=>{if(e.target.id=='cx')return $('#dlg').close();if(e.target.id!='ok')return;
+ const ids=[...$('#dlg').querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);if(!ids.length)return;
+ const {data,error}=await sb.rpc('create_chat',{p_name:$('#gn').value.trim()||'Grupo',p_members:ids});$('#dlg').close();if(error)return alert(error.message);await load();open_(data)};
 function realtime(){
  sb.channel('db').on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},async p=>{const g=p.new;let c=S.find(x=>x.id==g.chat_id);
    if(!c){await load();c=S.find(x=>x.id==g.chat_id)}else if(!c.msgs.some(x=>x.id==g.id))c.msgs.push(g);if(!c)return;
-   delete typ[c.id+g.sender_id];if(cur==c.id){msgs();hdr();if(g.sender_id!=me.id)read(c)}list();notify(c,g)})
+   delete typ[c.id+g.sender_id];if(cur==c.id){msgs();hdr();if(g.sender_id!=me.id&&!away())read(c)}list();if(g.sender_id!=me.id)notify(c,g)})
  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages'},p=>{const c=S.find(x=>x.id==p.new.chat_id),g=c&&c.msgs.find(x=>x.id==p.new.id);if(g){Object.assign(g,p.new);if(cur==c.id)msgs();list()}})
  .on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_members'},async()=>{await load();list();if(cur)hdr()})
-  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'chat_members'},p=>{const c=S.find(x=>x.id==p.new.chat_id),m=c&&c.mem.find(x=>x.user_id==p.new.user_id);if(m){m.last_read_at=p.new.last_read_at;if(cur==c.id)msgs();list()}})
-  .on('postgres_changes',{event:'DELETE',schema:'public',table:'chats'},p=>{const id=p.old.id;S=S.filter(x=>x.id!=id);if(cur==id)closeChat();else list()})
-  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'profiles'},p=>{const pr=p.new;
-    if(me&&pr.id==me.id){Object.assign(me,pr);setMeAv()}
-    S.forEach(c=>c.mem.forEach(m=>{if(m.user_id==pr.id)Object.assign(m.profiles,pr)}));if(cur)hdr();list()}).subscribe();
+ .on('postgres_changes',{event:'UPDATE',schema:'public',table:'chat_members'},p=>{const c=S.find(x=>x.id==p.new.chat_id),m=c&&c.mem.find(x=>x.user_id==p.new.user_id);if(m){m.last_read_at=p.new.last_read_at;if(cur==c.id)msgs();list()}}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'profiles'},p=>{S.forEach(c=>c.mem.forEach(x=>{if(x.user_id==p.new.id)Object.assign(x.profiles,p.new)}));if(p.new.id==me.id)Object.assign(me,p.new);list();if(cur)hdr()}).subscribe();
  const pr=sb.channel('presence',{config:{presence:{key:me.id}}});
  pr.on('presence',{event:'sync'},()=>{online=new Set(Object.keys(pr.presenceState()));if(cur){hdr();msgs()}list()}).subscribe(s=>{if(s=='SUBSCRIBED')pr.track({t:Date.now()})});
  ty=sb.channel('typing');ty.on('broadcast',{event:'t'},({payload:p})=>{if(!S.some(c=>c.id==p.c))return;const k=p.c+p.u;clearTimeout(typ[k]);typ[k]=setTimeout(()=>{delete typ[k];hdr();list()},3000);hdr();list()}).subscribe();
  setInterval(()=>sb.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id),6e4)}
- function notify(c,g){if(typeof Notification=='undefined'||Notification.permission!='granted')return;if(g.sender_id==me.id)return;if(document.hasFocus()&&cur==c.id)return;
-  const n=new Notification(c.is_group?title(c)+' — '+who(c,g.sender_id):title(c),{body:(g.deleted?'🚫 Mensagem apagada':g.body).replace(/\s+/g,' ').slice(0,160),tag:'z'+c.id});
-  n.onclick=()=>{window.focus();open_(c.id);n.close()}}
- const askN=()=>{if(typeof Notification!='undefined'&&Notification.permission=='default')Notification.requestPermission().catch(()=>{})};
- document.addEventListener('pointerdown',askN,{once:true});document.addEventListener('keydown',askN,{once:true});
- async function boot(){const {data:{session}}=await sb.auth.getSession();if(!session)return $('#au').showModal();
+let booted=0;
+async function boot(){if(booted)return;const {data:{session}}=await sb.auth.getSession();if(!session)return $('#au').showModal();booted=1;
  const {data:p}=await sb.from('profiles').select('*').eq('id',session.user.id).single();me=p;
- setMeAv();
- await load();list();realtime()}
+ paintMe();
+ await load();list();realtime();initNotif()}
+const paintMe=()=>{$('#side header .av').outerHTML=av(me).replace('<div class="av"','<div class="av" id="meav" title="Alterar foto"')};
+async function saveAvatar(url){const {error}=await sb.from('profiles').update({avatar_url:url}).eq('id',me.id);if(error)return alert(error.message);me.avatar_url=url;
+ S.forEach(c=>{const x=c.mem.find(m=>m.user_id==me.id);if(x)x.profiles.avatar_url=url});paintMe();list();if(cur)hdr()}
+async function setAvatar(f){const bm=await createImageBitmap(f),s=256,cv=document.createElement('canvas');cv.width=cv.height=s;const k=Math.max(s/bm.width,s/bm.height),w=bm.width*k,hh=bm.height*k;
+ cv.getContext('2d').drawImage(bm,(s-w)/2,(s-hh)/2,w,hh);const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',.85)),path=me.id+'/avatar.jpg';
+ const {error}=await sb.storage.from('avatars').upload(path,blob,{upsert:true,contentType:'image/jpeg'});if(error)return alert(error.message);
+ await saveAvatar(sb.storage.from('avatars').getPublicUrl(path).data.publicUrl+'?v='+Date.now())}
+$('#side header').addEventListener('click',e=>{const a=e.target.closest('#meav');if(!a)return;e.stopPropagation();const r=a.getBoundingClientRect();
+ menu([['📷 Alterar foto',()=>$('#pf').click()],...(me.avatar_url?[['🗑️ Remover foto',async()=>{await sb.storage.from('avatars').remove([me.id+'/avatar.jpg']);saveAvatar(null)}]]:[])],r.left,r.bottom)});
+$('#pf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)setAvatar(f).catch(err=>alert(err.message))};
+$('#msgs').oncontextmenu=e=>{const b=e.target.closest('.b');if(b){e.preventDefault();b.querySelector('.dd').click()}};
+const away=()=>document.hidden||!document.hasFocus();
+const nOn=()=>'Notification' in window&&Notification.permission=='granted'&&localStorage.getItem('nt')!='off';
+const nIcon=()=>{$('#nf').textContent=nOn()?'🔔':'🔕'};
+let ac;function beep(){try{if(localStorage.getItem('nt')=='off')return;ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;g.gain.setValueAtTime(.08,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.25);o.start();o.stop(ac.currentTime+.25)}catch(e){}}
+function notify(c,g){if(g.deleted||!away())return;beep();if(!nOn())return;
+ const t=c.is_group?who(c,g.sender_id)+' · '+title(c):title(c),o={body:g.body.slice(0,120),tag:c.id,renotify:true,data:{chat:c.id}},ic=(c.mem.find(x=>x.user_id==g.sender_id)||{profiles:{}}).profiles.avatar_url;if(ic)o.icon=ic;
+ const fb=()=>{try{const n=new Notification(t,o);n.onclick=()=>{window.focus();open_(c.id)}}catch(e){}};
+ if(navigator.serviceWorker)navigator.serviceWorker.getRegistration().then(r=>r?r.showNotification(t,o):fb()).catch(fb);else fb()}
+function initNotif(){if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{const id=e.data&&e.data.chat;if(id&&S.find(x=>x.id==id))open_(id)})}
+ nIcon();document.addEventListener('click',()=>{if('Notification' in window&&Notification.permission=='default')Notification.requestPermission().then(nIcon)},{once:true})}
+$('#nf').onclick=async()=>{if(!('Notification' in window))return alert('Este navegador não suporta notificações.');
+ if(Notification.permission=='default'){await Notification.requestPermission();localStorage.removeItem('nt')}
+ else if(Notification.permission=='denied')return alert('As notificações estão bloqueadas. Libere nas configurações do site (cadeado ao lado do endereço) e recarregue a página.');
+ else localStorage.setItem('nt',localStorage.getItem('nt')=='off'?'on':'off');nIcon()};
+document.addEventListener('visibilitychange',async()=>{if(document.hidden||!me)return;await load();list();if(cur){hdr();msgs();read(chat())}});
+addEventListener('focus',()=>{if(cur&&me)read(chat())});
 $('#au').addEventListener('cancel',e=>e.preventDefault());
 const authGo=async up=>{const email=$('#ae').value.trim(),password=$('#ap').value,m=$('#am');m.textContent='';
  const {data,error}=up?await sb.auth.signUp({email,password,options:{data:{name:$('#an').value.trim()||email.split('@')[0]}}}):await sb.auth.signInWithPassword({email,password});
- if(error)return m.textContent=error.message;if(!data.session)return m.textContent='Conta criada! Confirme o e-mail (ou desative a confirmação no painel do Supabase) e entre.';
+ if(error)return m.textContent=error.message;let ses=data.session;if(!ses&&up){const r=await sb.auth.signInWithPassword({email,password});ses=r.data.session}
+ if(!ses)return m.textContent='Conta criada! Confirme o e-mail (ou desative "Confirm email" no painel do Supabase) e entre.';
  $('#au').close();boot()};
 $('#li').onclick=()=>authGo(0);$('#su').onclick=()=>authGo(1);
 if(SUPABASE_URL.startsWith('COLE'))$('#empty').innerHTML='<h2>Configure o Supabase</h2><div>Edite SUPABASE_URL e SUPABASE_KEY no início do script deste arquivo.</div>';else boot();
