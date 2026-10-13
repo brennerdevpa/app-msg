@@ -2,6 +2,7 @@
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MyMsg</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%229%22%20fill%3D%22%2300a884%22/%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M16%207C10.5%207%206.5%2010.6%206.5%2015.2c0%202.4%201.1%204.5%202.9%206l-.9%203.6a.6.6%200%2000.9.6l3.8-2.1c.9.2%201.8.3%202.8.3%205.5%200%209.5-3.6%209.5-8.4S21.5%207%2016%207z%22/%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2215%22%20r%3D%221.4%22%20fill%3D%22%2300a884%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2215%22%20r%3D%221.4%22%20fill%3D%22%2300a884%22/%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2215%22%20r%3D%221.4%22%20fill%3D%22%2300a884%22/%3E%3C/svg%3E">
 <style>
 :root{--bg:#f0f2f5;--pn:#fff;--hd:#f0f2f5;--tx:#111b21;--t2:#667781;--ln:#e9edef;--g:#00a884;--out:#d9fdd3;--in:#fff;--cb:#efeae2;--hv:#f5f6f6;--sel:#f0f2f5;--bd:#53bdeb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b141a;--pn:#111b21;--hd:#202c33;--tx:#e9edef;--t2:#8696a0;--ln:#222d34;--out:#005c4b;--in:#202c33;--cb:#0b141a;--hv:#202c33;--sel:#2a3942}}
@@ -67,16 +68,16 @@ dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
 #go{background:none;color:var(--t2)}#go2{background:var(--g)!important;color:#fff!important}#go2:hover{background:#06cf9c!important}
 #rt{font-weight:400;color:var(--tx);margin-left:6px}
 @media(max-width:760px){#cp,#rc{padding:6px 8px;gap:2px}#cp{background:transparent}#inp{border-radius:22px}#go{background:var(--g);color:#fff}#go:hover{background:#06cf9c}}
-</style></head><body>
+.ac{display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;cursor:pointer;border:1px solid var(--ln);margin:6px 0}.ac:hover,.ac.on{background:var(--sel)}.ac .av{width:36px;height:36px;font-size:18px}.ac small{color:var(--t2)}.ax{margin-left:auto;font-size:13px;padding:4px 8px!important;background:none!important;color:var(--t2)!important}.ac-t{color:var(--t2);font-size:13px;margin-top:6px}#oth{display:block;margin:4px 0 10px;color:var(--g);font-size:13px;cursor:pointer}#side header button,.ch button:not(.bk){display:grid;place-items:center;width:40px;height:40px;padding:0;color:var(--t2);flex:none}header svg,.ch svg{width:24px;height:24px;fill:currentColor}.bk{width:40px;height:40px;padding:0;color:var(--t2)}.bk svg{display:block;margin:auto}.logo{display:flex;align-items:center;gap:8px;margin-left:6px;font-size:20px;letter-spacing:-.3px;user-select:none;min-width:0}.logo svg{width:32px;height:32px;flex:none;fill:initial}.logo b{font-weight:600}.logo b span{color:var(--g)}.logo.big{margin:0 auto;justify-content:center}.logo.big svg{width:96px;height:96px}#empty h2{letter-spacing:-.5px}#empty h2 b{font-weight:600}.pop .logo b,.pop #pp{display:none!important}@media(max-width:760px){#pp{display:none!important}}</style></head><body>
 <div id="app">
 <aside id="side">
-<header><div class="av" style="background:#6a7175">Eu</div><span class="sp"></span><button id="nc" title="Nova conversa">➕</button><button id="nf" title="Notificações">🔔</button><button id="th" title="Alternar tema">🌓</button><button id="lo" title="Sair">🚪</button></header>
+<header><div class="av" style="background:#6a7175">Eu</div><div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#00a884"/><path fill="#fff" d="M16 7C10.5 7 6.5 10.6 6.5 15.2c0 2.4 1.1 4.5 2.9 6l-.9 3.6a.6.6 0 00.9.6l3.8-2.1c.9.2 1.8.3 2.8.3 5.5 0 9.5-3.6 9.5-8.4S21.5 7 16 7z"/><circle cx="12" cy="15" r="1.4" fill="#00a884"/><circle cx="16" cy="15" r="1.4" fill="#00a884"/><circle cx="20" cy="15" r="1.4" fill="#00a884"/></svg><b>My<span>Msg</span></b></div><span class="sp"></span><button id="nc" title="Nova conversa">➕</button><button id="pp" title="Abrir janela flutuante"></button><button id="nf" title="Notificações">🔔</button><button id="th" title="Alternar tema">🌓</button><button id="lo" title="Sair">🚪</button></header>
 <div class="sr"><input id="q" placeholder="Pesquisar ou começar uma nova conversa" aria-label="Pesquisar"></div>
 <div class="chips"><button data-f="all" class="on">Tudo</button><button data-f="unread">Não lidas</button><button data-f="g">Grupos</button></div>
 <div id="list"></div>
 </aside>
 <main id="main">
-<div id="empty"><div style="font-size:70px">💬</div><h2>MyMsg Web</h2><div>Selecione uma conversa para começar.<br>Conversas em tempo real com Supabase.</div></div>
+<div id="empty"><div class="logo big"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#00a884"/><path fill="#fff" d="M16 7C10.5 7 6.5 10.6 6.5 15.2c0 2.4 1.1 4.5 2.9 6l-.9 3.6a.6.6 0 00.9.6l3.8-2.1c.9.2 1.8.3 2.8.3 5.5 0 9.5-3.6 9.5-8.4S21.5 7 16 7z"/><circle cx="12" cy="15" r="1.4" fill="#00a884"/><circle cx="16" cy="15" r="1.4" fill="#00a884"/><circle cx="20" cy="15" r="1.4" fill="#00a884"/></svg></div><h2><b>My</b><b style="color:var(--g)">Msg</b></h2><div>Selecione uma conversa para começar.<br>Conversas em tempo real com Supabase.</div></div>
 <section id="chat">
 <div class="ch" id="chh"><button class="bk" id="bk">←</button><div class="av" id="hav"></div><div><div class="t1" id="hn"></div><div class="t2" id="hs"></div></div><span class="sp"></span></div>
 <div id="msgs"></div>
@@ -90,7 +91,7 @@ dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
 </div>
 <input type="file" id="pf" accept="image/*" hidden><input type="file" id="fi" accept="image/*" hidden>
 <div id="mn" hidden></div>
-<dialog id="au"><b>Entrar no MyMsg</b><input id="ae" type="email" placeholder="E-mail" autocomplete="email"><input id="ap" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="current-password"><input id="an" placeholder="Seu nome (só para criar conta)" maxlength="30"><button id="li">Entrar</button> <button id="su" style="background:var(--hd);color:var(--tx)">Criar conta</button><p id="am" style="max-width:260px;color:var(--t2);font-size:13px"></p></dialog>
+<dialog id="au"><div class="logo" style="font-size:22px;margin:0 0 4px"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#00a884"/><path fill="#fff" d="M16 7C10.5 7 6.5 10.6 6.5 15.2c0 2.4 1.1 4.5 2.9 6l-.9 3.6a.6.6 0 00.9.6l3.8-2.1c.9.2 1.8.3 2.8.3 5.5 0 9.5-3.6 9.5-8.4S21.5 7 16 7z"/><circle cx="12" cy="15" r="1.4" fill="#00a884"/><circle cx="16" cy="15" r="1.4" fill="#00a884"/><circle cx="20" cy="15" r="1.4" fill="#00a884"/></svg><b>My<span>Msg</span></b></div><div style="color:var(--t2);margin:2px 0 8px">Entre ou crie a sua conta</div><div id="ac"></div><input id="ae" type="email" placeholder="E-mail" autocomplete="username"><input id="ap" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="current-password"><input id="an" placeholder="Seu nome (só para criar conta)" maxlength="30"><button id="li">Entrar</button> <button id="su" style="background:var(--hd);color:var(--tx)">Criar conta</button><p id="am" style="max-width:260px;color:var(--t2);font-size:13px"></p></dialog>
 <dialog id="dlg"></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -170,7 +171,7 @@ $('#go').onclick=()=>{if($('#inp').value.trim()||edit)send();else recStart()};$(
 $('#em').innerHTML='😀😂🥰😍😎🤔😢😡👍👎🙏👏🔥❤️💔🎉🍕☕🎂🌟✅😴🤝🙌'.match(/\p{Extended_Pictographic}\uFE0F?/gu).map(e=>`<button>${e}</button>`).join('');
 $('#emb').onclick=e=>{e.stopPropagation();$('#em').classList.toggle('show')};
 $('#em').onclick=e=>{const b=e.target.closest('button');if(b){$('#inp').value+=b.textContent;fit();$('#inp').focus()}};
-$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark';thIcon()};
 $('#lo').onclick=async()=>{await sb.auth.signOut();location.reload()};
 $('#nc').onclick=async()=>{const {data}=await sb.from('profiles').select('id,name,emoji').neq('id',me.id).order('name');
  $('#dlg').innerHTML=`<b>Nova conversa</b><div style="max-height:260px;overflow:auto;margin:10px 0">${(data||[]).map(p=>`<label style="display:block;padding:4px 0"><input type="checkbox" value="${p.id}" style="display:inline;width:auto;margin:0 8px 0 0">${p.emoji} ${E(p.name)}</label>`).join('')||'Nenhum outro usuário cadastrado ainda.'}</div><input id="gn" placeholder="Nome do grupo (se escolher 2+ pessoas)"><button id="ok">Criar</button> <button id="cx" style="background:var(--hd);color:var(--tx)">Cancelar</button>`;$('#dlg').showModal()};
@@ -190,8 +191,8 @@ function realtime(){
  const beat=()=>sb.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id).then(()=>{});beat();setInterval(beat,3e4);
  addEventListener('pagehide',bye);document.addEventListener('visibilitychange',()=>{if(document.hidden)bye()})}
 let booted=0;
-async function boot(){if(booted)return;const {data:{session}}=await sb.auth.getSession();if(!session)return $('#au').showModal();booted=1;
- const {data:p}=await sb.from('profiles').select('*').eq('id',session.user.id).single();me=p;
+async function boot(){if(booted)return;const {data:{session}}=await sb.auth.getSession();if(!session){authUI();return $('#au').showModal()}booted=1;
+ const {data:p}=await sb.from('profiles').select('*').eq('id',session.user.id).single();me=p;saveAcct(session.user.email);
  paintMe();
  await load();list();realtime();initNotif()}
 const paintMe=()=>{$('#side header .av').outerHTML=av(me).replace('<div class="av"','<div class="av" id="meav" title="Alterar foto"')};
@@ -207,9 +208,9 @@ $('#pf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)setAvatar
 $('#msgs').oncontextmenu=e=>{const b=e.target.closest('.b');if(b){e.preventDefault();b.querySelector('.dd').click()}};
 const away=()=>document.hidden||!document.hasFocus();
 const nOn=()=>'Notification' in window&&Notification.permission=='granted'&&localStorage.getItem('nt')!='off';
-const nIcon=()=>{$('#nf').textContent=nOn()?'🔔':'🔕'};
+const nIcon=()=>{$('#nf').innerHTML=nOn()?IC.bell:IC.bellOff};
 let ac;function beep(){try{if(localStorage.getItem('nt')=='off')return;ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;g.gain.setValueAtTime(.08,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.25);o.start();o.stop(ac.currentTime+.25)}catch(e){}}
-function notify(c,g){if(g.deleted||!away())return;beep();if(!nOn())return;
+function notify(c,g){if(g.deleted||!away())return;if(POP?Date.now()-lastMain<6000:lastPop&&lastPop.f&&Date.now()-lastPop.t<6000)return;beep();if(!nOn())return;
  const t=c.is_group?who(c,g.sender_id)+' · '+title(c):title(c),o={body:(g.media_type=='image'?'📷 Foto':g.media_type=='audio'?'🎤 Áudio':g.body).slice(0,120),tag:c.id,renotify:true,data:{chat:c.id}},ic=(c.mem.find(x=>x.user_id==g.sender_id)||{profiles:{}}).profiles.avatar_url;if(ic)o.icon=ic;
  const fb=()=>{try{const n=new Notification(t,o);n.onclick=()=>{window.focus();open_(c.id)}}catch(e){}};
  if(navigator.serviceWorker)navigator.serviceWorker.getRegistration().then(r=>r?r.showNotification(t,o):fb()).catch(fb);else fb()}
@@ -266,6 +267,32 @@ function pt(e){const m=String((e&&e.message)||e||''),x=(m+' '+((e&&(e.code||e.er
  for(const [r,t] of L)if(r.test(x))return t;return 'Algo deu errado: '+m}
 let tok='';sb.auth.onAuthStateChange((_,s)=>{tok=s?s.access_token:''});
 function bye(){if(!me||!tok)return;try{fetch(SUPABASE_URL+'/rest/v1/profiles?id=eq.'+me.id,{method:'PATCH',keepalive:true,headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({last_seen:new Date().toISOString()})})}catch(e){}}
+const accts=()=>{try{return JSON.parse(localStorage.getItem('mm_ac')||'[]')}catch(e){return[]}};
+function saveAcct(email){const l=accts().filter(a=>a.e!=email);l.unshift({e:email,n:me.name,i:me.emoji,c:me.color,u:me.avatar_url||''});try{localStorage.setItem('mm_ac',JSON.stringify(l.slice(0,5)))}catch(e){}}
+function pickAcct(i){const a=accts()[i];if(!a)return;$('#ae').value=a.e;['#ae','#an','#su'].forEach(s=>$(s).hidden=true);$('#am').textContent='';
+ document.querySelectorAll('.ac').forEach((x,j)=>x.classList.toggle('on',j==i));setTimeout(()=>$('#ap').focus(),50)}
+function authUI(){const l=accts(),box=$('#ac');if(!l.length){box.innerHTML='';return}
+ box.innerHTML='<div class="ac-t">Contas neste aparelho</div>'+l.map((a,i)=>`<div class="ac" data-i="${i}">${a.u?`<div class="av" style="background:#888 center/cover url('${a.u.replace(/'/g,'%27')}')"></div>`:`<div class="av" style="background:${a.c}">${a.i}</div>`}<div><b>${E(a.n)}</b><br><small>${E(a.e)}</small></div><button class="ax" data-x="${i}" title="Esquecer esta conta">✕</button></div>`).join('')+'<a id="oth">Usar outra conta</a>';pickAcct(0)}
+$('#ac').onclick=e=>{const x=e.target.closest('.ax'),a=e.target.closest('.ac');
+ if(x){e.stopPropagation();const l=accts();l.splice(+x.dataset.x,1);try{localStorage.setItem('mm_ac',JSON.stringify(l))}catch(err){}authUI();if(!l.length){['#ae','#an','#su'].forEach(s=>$(s).hidden=false);$('#ae').value=''}return}
+ if(a)return pickAcct(+a.dataset.i);
+ if(e.target.id=='oth'){document.querySelectorAll('.ac').forEach(z=>z.classList.remove('on'));['#ae','#an','#su'].forEach(s=>$(s).hidden=false);$('#ae').value='';$('#ae').focus()}};
+$('#ap').onkeydown=$('#ae').onkeydown=e=>{if(e.key=='Enter')$('#li').click()};
+Object.assign(IC,{new:'<svg viewBox="0 0 24 24"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM17 11h-4v4h-2v-4H7V9h4V5h2v4h4v2z"/></svg>',moon:'<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 01-4.4 2.26 5.4 5.4 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>',sun:'<svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 000-2H2a1 1 0 000 2zm18 0h2a1 1 0 000-2h-2a1 1 0 000 2zM11 2v2a1 1 0 002 0V2a1 1 0 00-2 0zm0 18v2a1 1 0 002 0v-2a1 1 0 00-2 0zM5.99 4.58a1 1 0 00-1.41 1.41l1.06 1.06a1 1 0 001.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 00-1.41 1.41l1.06 1.06a1 1 0 001.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 00-1.41-1.41l-1.06 1.06a1 1 0 001.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 00-1.41-1.41l-1.06 1.06a1 1 0 001.41 1.41l1.06-1.06z"/></svg>',bell:'<svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>',bellOff:'<svg viewBox="0 0 24 24"><path d="M20 18.69L7.84 6.14 5.27 3.49 4 4.76l2.8 2.8c-.52.99-.8 2.16-.8 3.44v5l-2 2v1h13.73l2 2L21 19.72l-1-1.03zM12 22c1.11 0 2-.89 2-2h-4c0 1.11.89 2 2 2zm6-7.32V11c0-3.08-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68c-.15.03-.29.08-.42.12L18 14.68z"/></svg>',out:'<svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>',back:'<svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>'});
+const isDark=()=>{const r=document.documentElement;return r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches};
+const thIcon=()=>{$('#th').innerHTML=isDark()?IC.sun:IC.moon};
+$('#nc').innerHTML=IC.new;$('#lo').innerHTML=IC.out;$('#bk').innerHTML=IC.back;thIcon();nIcon();
+IC.pip='<svg viewBox="0 0 24 24"><path d="M19 11h-8v6h8v-6zm4 8V4.98C23 3.88 22.1 3 21 3H3c-1.1 0-2 .88-2 1.98V19c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2zm-2 .02H3V4.97h18v14.05z"/></svg>';$('#pp').innerHTML=IC.pip;
+const POP=new URLSearchParams(location.search).has('popup');if(POP)document.body.classList.add('pop');
+let lastMain=0,lastPop=null;const bc='BroadcastChannel' in window?new BroadcastChannel('mm'):null;
+if(bc){bc.onmessage=e=>{const d=e.data||{};if(d.t=='main')lastMain=Date.now();if(d.t=='pop')lastPop={t:Date.now(),f:d.f}};
+ setInterval(()=>bc.postMessage(POP?{t:'pop',f:document.hasFocus()}:{t:'main'}),2000)}
+async function openPop(){const url=location.href.split('#')[0].split('?')[0]+'?popup=1';
+ try{if(window.documentPictureInPicture){const ex=documentPictureInPicture.window;if(ex){ex.focus();return}
+  const w=await documentPictureInPicture.requestWindow({width:380,height:620});w.document.documentElement.style.height='100%';
+  const b=w.document.body,f=w.document.createElement('iframe');b.style.cssText='margin:0;height:100%;overflow:hidden';f.src=url;f.allow='microphone; clipboard-write';f.style.cssText='border:0;width:100%;height:100%;display:block';b.append(f);return}}catch(e){}
+ const w=window.open(url,'mymsg_pop','popup=yes,width=380,height=620,left='+Math.max(0,screen.width-420)+',top=80');if(!w)alert('O navegador bloqueou a janela. Permita pop-ups para este site e tente de novo.')}
+$('#pp').onclick=openPop;
 $('#au').addEventListener('cancel',e=>e.preventDefault());
 const authGo=async up=>{const email=$('#ae').value.trim(),password=$('#ap').value,m=$('#am');m.textContent='';
  const {data,error}=up?await sb.auth.signUp({email,password,options:{data:{name:$('#an').value.trim()||email.split('@')[0]}}}):await sb.auth.signInWithPassword({email,password});
