@@ -130,7 +130,7 @@ function list(){
  const n=S.reduce((a,c)=>a+unread(c),0);document.title=(n?`(${n}) `:'')+'MyMsg'}
 function hdr(){const c=chat();if(!c)return;$('#hav').outerHTML=av(avp(c)).replace('class="av"','class="av" id="hav"');$('#hn').textContent=title(c);
  const s=$('#hs'),t=isTyp(c),o=oth(c);s.className='t2'+(t?' ty':'');
- s.textContent=t?'digitando...':c.is_group?c.mem.map(x=>x.profiles.name).join(', '):online.has(o&&o.id)?'online':'visto por último '+(o&&o.last_seen?dl(o.last_seen).toLowerCase()+' às '+T(o.last_seen):'')}
+ s.textContent=t?'digitando...':c.is_group?c.mem.map(x=>x.profiles.name).join(', '):online.has(o&&o.id)?'online':'visto por último '+(o&&o.last_seen?(dl(o.last_seen)=='Hoje'||dl(o.last_seen)=='Ontem'?dl(o.last_seen).toLowerCase():'em '+dl(o.last_seen))+' às '+T(o.last_seen):'')}
 function msgs(force){const c=chat(),box=$('#msgs'),near=box.scrollHeight-box.scrollTop-box.clientHeight<120,pa=[...box.querySelectorAll('audio')].find(a=>!a.paused);let h='<div class="nt">💬 Mensagens em tempo real via Supabase.</div>',pd='',pf='';
  c.msgs.forEach(g=>{const d=dk(g.created_at),mine=g.sender_id==me.id;if(d!=pd){h+=`<div class="dt">${dl(g.created_at)}</div>`;pd=d;pf=''}const first=pf!=g.sender_id;pf=g.sender_id;let b='';
   if(c.is_group&&!mine&&first)b+=`<div class="nm" style="color:${col(who(c,g.sender_id))}">${E(who(c,g.sender_id))}</div>`;
@@ -187,7 +187,8 @@ function realtime(){
  const pr=sb.channel('presence',{config:{presence:{key:me.id}}});
  pr.on('presence',{event:'sync'},()=>{online=new Set(Object.keys(pr.presenceState()));if(cur){hdr();msgs()}list()}).subscribe(s=>{if(s=='SUBSCRIBED')pr.track({t:Date.now()})});
  ty=sb.channel('typing');ty.on('broadcast',{event:'t'},({payload:p})=>{if(!S.some(c=>c.id==p.c))return;const k=p.c+p.u;clearTimeout(typ[k]);typ[k]=setTimeout(()=>{delete typ[k];hdr();list()},3000);hdr();list()}).subscribe();
- setInterval(()=>sb.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id),6e4)}
+ const beat=()=>sb.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id).then(()=>{});beat();setInterval(beat,3e4);
+ addEventListener('pagehide',bye);document.addEventListener('visibilitychange',()=>{if(document.hidden)bye()})}
 let booted=0;
 async function boot(){if(booted)return;const {data:{session}}=await sb.auth.getSession();if(!session)return $('#au').showModal();booted=1;
  const {data:p}=await sb.from('profiles').select('*').eq('id',session.user.id).single();me=p;
@@ -263,6 +264,8 @@ function pt(e){const m=String((e&&e.message)||e||''),x=(m+' '+((e&&(e.code||e.er
  [/jwt expired|invalid jwt|not authenticated|não autenticado/,'Sua sessão expirou. Recarregue a página e entre novamente.'],
  [/failed to fetch|networkerror|network request|authretryablefetch/,'Sem conexão com o servidor. Verifique sua internet (ou se o projeto do Supabase não está pausado).']];
  for(const [r,t] of L)if(r.test(x))return t;return 'Algo deu errado: '+m}
+let tok='';sb.auth.onAuthStateChange((_,s)=>{tok=s?s.access_token:''});
+function bye(){if(!me||!tok)return;try{fetch(SUPABASE_URL+'/rest/v1/profiles?id=eq.'+me.id,{method:'PATCH',keepalive:true,headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({last_seen:new Date().toISOString()})})}catch(e){}}
 $('#au').addEventListener('cancel',e=>e.preventDefault());
 const authGo=async up=>{const email=$('#ae').value.trim(),password=$('#ap').value,m=$('#am');m.textContent='';
  const {data,error}=up?await sb.auth.signUp({email,password,options:{data:{name:$('#an').value.trim()||email.split('@')[0]}}}):await sb.auth.signInWithPassword({email,password});
