@@ -77,7 +77,7 @@ dialog button{background:var(--g);color:#fff;border-radius:8px;padding:8px 16px}
 <div id="list"></div>
 </aside>
 <main id="main">
-<div id="empty"><div class="logo big"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#00a884"/><path fill="#fff" d="M16 7C10.5 7 6.5 10.6 6.5 15.2c0 2.4 1.1 4.5 2.9 6l-.9 3.6a.6.6 0 00.9.6l3.8-2.1c.9.2 1.8.3 2.8.3 5.5 0 9.5-3.6 9.5-8.4S21.5 7 16 7z"/><circle cx="12" cy="15" r="1.4" fill="#00a884"/><circle cx="16" cy="15" r="1.4" fill="#00a884"/><circle cx="20" cy="15" r="1.4" fill="#00a884"/></svg></div><h2><b>My</b><b style="color:var(--g)">Msg</b></h2><div>Selecione uma conversa para começar.<br>Conversas em tempo real com Supabase.</div></div>
+<div id="empty"><div class="logo big"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#00a884"/><path fill="#fff" d="M16 7C10.5 7 6.5 10.6 6.5 15.2c0 2.4 1.1 4.5 2.9 6l-.9 3.6a.6.6 0 00.9.6l3.8-2.1c.9.2 1.8.3 2.8.3 5.5 0 9.5-3.6 9.5-8.4S21.5 7 16 7z"/><circle cx="12" cy="15" r="1.4" fill="#00a884"/><circle cx="16" cy="15" r="1.4" fill="#00a884"/><circle cx="20" cy="15" r="1.4" fill="#00a884"/></svg></div><h2><b>My</b><b style="color:var(--g)">Msg</b></h2><div>Selecione uma conversa para começar.</div></div>
 <section id="chat">
 <div class="ch" id="chh"><button class="bk" id="bk">←</button><div class="av" id="hav"></div><div><div class="t1" id="hn"></div><div class="t2" id="hs"></div></div><span class="sp"></span></div>
 <div id="msgs"></div>
@@ -132,7 +132,7 @@ function list(){
 function hdr(){const c=chat();if(!c)return;$('#hav').outerHTML=av(avp(c)).replace('class="av"','class="av" id="hav"');$('#hn').textContent=title(c);
  const s=$('#hs'),t=isTyp(c),o=oth(c);s.className='t2'+(t?' ty':'');
  s.textContent=t?'digitando...':c.is_group?c.mem.map(x=>x.profiles.name).join(', '):online.has(o&&o.id)?'online':'visto por último '+(o&&o.last_seen?(dl(o.last_seen)=='Hoje'||dl(o.last_seen)=='Ontem'?dl(o.last_seen).toLowerCase():'em '+dl(o.last_seen))+' às '+T(o.last_seen):'')}
-function msgs(force){const c=chat(),box=$('#msgs'),near=box.scrollHeight-box.scrollTop-box.clientHeight<120,pa=[...box.querySelectorAll('audio')].find(a=>!a.paused);let h='<div class="nt">💬 Mensagens em tempo real via Supabase.</div>',pd='',pf='';
+function msgs(force){const c=chat(),box=$('#msgs'),near=box.scrollHeight-box.scrollTop-box.clientHeight<120,pa=[...box.querySelectorAll('audio')].find(a=>!a.paused);let h='<div class="nt">💬 Mensagens em tempo real.</div>',pd='',pf='';
  c.msgs.forEach(g=>{const d=dk(g.created_at),mine=g.sender_id==me.id;if(d!=pd){h+=`<div class="dt">${dl(g.created_at)}</div>`;pd=d;pf=''}const first=pf!=g.sender_id;pf=g.sender_id;let b='';
   if(c.is_group&&!mine&&first)b+=`<div class="nm" style="color:${col(who(c,g.sender_id))}">${E(who(c,g.sender_id))}</div>`;
   if(g.reply_to){const q=c.msgs.find(z=>z.id==g.reply_to);if(q)b+=`<div class="qt" data-q="${q.id}"><b style="color:${q.sender_id==me.id?'var(--g)':col(who(c,q.sender_id))}">${q.sender_id==me.id?'Você':E(who(c,q.sender_id))}</b><br>${E(snip(q))}</div>`}
@@ -258,12 +258,12 @@ function pt(e){const m=String((e&&e.message)||e||''),x=(m+' '+((e&&(e.code||e.er
  [/rate limit|over_email_send_rate_limit|over_request_rate_limit|too many/,'Muitas tentativas. Aguarde alguns minutos e tente novamente.'],
  [/signup.*disabled|signup_disabled/,'O cadastro de novas contas está desativado.'],
  [/provide your email|missing email|anonymous/,'Informe e-mail e senha.'],
- [/bucket not found/,'O espaço de armazenamento ainda não foi criado. Execute o arquivo midia.sql no Supabase.'],
+ [/bucket not found/,'O envio de arquivos ainda não está disponível. Avise o administrador.'],
  [/exceeded the maximum|too large|file size/,'O arquivo é grande demais (máximo de 10 MB).'],
  [/mime type|not supported/,'Este tipo de arquivo não é permitido.'],
  [/row-level security|permission denied|42501/,'Você não tem permissão para fazer isso.'],
  [/jwt expired|invalid jwt|not authenticated|não autenticado/,'Sua sessão expirou. Recarregue a página e entre novamente.'],
- [/failed to fetch|networkerror|network request|authretryablefetch/,'Sem conexão com o servidor. Verifique sua internet (ou se o projeto do Supabase não está pausado).']];
+ [/failed to fetch|networkerror|network request|authretryablefetch/,'Sem conexão com o servidor. Verifique sua internet e tente novamente.']];
  for(const [r,t] of L)if(r.test(x))return t;return 'Algo deu errado: '+m}
 let tok='';sb.auth.onAuthStateChange((_,s)=>{tok=s?s.access_token:''});
 function bye(){if(!me||!tok)return;try{fetch(SUPABASE_URL+'/rest/v1/profiles?id=eq.'+me.id,{method:'PATCH',keepalive:true,headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({last_seen:new Date().toISOString()})})}catch(e){}}
@@ -300,5 +300,5 @@ const authGo=async up=>{const email=$('#ae').value.trim(),password=$('#ap').valu
  if(!ses)return m.textContent='Conta criada! Enviamos um link de confirmação para o seu e-mail. Abra o link (veja também o spam) e depois clique em Entrar.';
  $('#au').close();boot()};
 $('#li').onclick=()=>authGo(0);$('#su').onclick=()=>authGo(1);
-if(SUPABASE_URL.startsWith('COLE'))$('#empty').innerHTML='<h2>Configure o Supabase</h2><div>Edite SUPABASE_URL e SUPABASE_KEY no início do script deste arquivo.</div>';else boot();
+if(SUPABASE_URL.startsWith('COLE'))$('#empty').innerHTML='<h2>Configuração pendente</h2><div>Preencha o endereço e a chave do servidor no início do script deste arquivo.</div>';else boot();
 </script></body></html>
